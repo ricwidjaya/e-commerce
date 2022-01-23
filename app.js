@@ -2,12 +2,20 @@ const express = require("express")
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
+const routers = require('./routes')
+const handlebars = require('express-handlebars')
+const session = require('express-session')
+
 const app = express()
 const PORT = process.env.PORT
 
-app.get("/", (req, res) => {
-  return res.send(`<h1>Hello World</h1>`)
-})
+// View engine
+app.engine('hbs', handlebars.engine({extname: '.hbs'}))
+app.set('view engine', 'hbs')
+
+// http & sessions
+
+app.use(routers)
 
 app.listen(PORT, () => {
   console.log(`E-Commerce is running on port: ${PORT} `)
